@@ -14,11 +14,12 @@ function loadRecipe() {
             const recipe = snapshot.val();
             recipeDetails.innerHTML = `
                 <h2>${recipe.recipeName}</h2>
-                <p>${recipe.description}</p>
                 <p><strong>Categoría:</strong> ${recipe.category}</p>
                 <p><strong>Dificultad:</strong> ${recipe.difficulty}</p>
                 <p><strong>Ingredientes:</strong> ${recipe.ingredients}</p>
                 <p><strong>Instrucciones:</strong> ${recipe.instructions}</p>
+                <p><strong>Comentarios:</strong> ${recipe.comments}</p>
+                <button id="edit-recipe" onclick="location.href='formulario.html?name=${encodeURIComponent(recipe.recipeName)}'">Editar Receta</button>
             `;
         } else {
             recipeDetails.innerHTML = "<p>Receta no encontrada.</p>";
