@@ -1,7 +1,9 @@
 import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+import { getStorage, ref as storageRef, deleteObject } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
 
 const db = getDatabase();
 const recipeList = document.getElementById('recipe-list');
+const storage = getStorage(); // Get a reference to Firebase Storage
 
 // Función para cargar recetas desde Firebase
 function loadRecipes() {
@@ -38,6 +40,18 @@ function loadRecipes() {
                 deleteButton.addEventListener('click', () => {
                     if (confirm(`¿Estás seguro de que quieres eliminar la receta "${recipe.recipeName}"?`)) {
                         const recipeRef = ref(db, 'recipes/' + recipe.recipeName);
+
+                        // Delete the image from Firebase Storage
+                        if (recipe.imageUrl) {
+                            const imageRef = storageRef(storage, recipe.imageUrl); // Create a reference to the image file using the URL
+                            deleteObject(imageRef).then(() => {
+                                console.log('Imagen eliminada exitosamente de Storage');
+                            }).catch((error) => {
+                                console.error('Error al eliminar la imagen de Storage:', error);
+                            });
+                        }
+
+                        // Delete the recipe from Firebase Realtime Database
                         remove(recipeRef).then(() => {
                             console.log('Receta eliminada exitosamente');
                             loadRecipes();

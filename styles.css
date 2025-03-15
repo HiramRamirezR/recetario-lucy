@@ -126,4 +126,8 @@ button {
     .container {
         padding: 10px;
     }
+
+    .logo {
+        width: 100%;
+    }
 }
