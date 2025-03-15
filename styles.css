@@ -99,6 +99,28 @@ button {
     margin: 0 auto 20px;
 }
 
+.recipe-content {
+    display: flex; /* Usar flexbox para alinear el enlace y el botón */
+    align-items: center; /* Alinear verticalmente los elementos */
+}
+
+.delete-button {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambiar el cursor al pasar por encima */
+    padding: 5px; /* Agregar un poco de espacio alrededor del ícono */
+    font-size: 1em; /* Ajustar el tamaño del ícono */
+    color: red; /* Color del ícono */
+}
+
+.delete-button i {
+    pointer-events: none; /* Evitar que el ícono capture eventos de clic */
+}
+
+.recipe-item{
+    padding: 5px;
+}
+
 /* Responsive styles */
 @media (max-width: 600px) {
     .container {
