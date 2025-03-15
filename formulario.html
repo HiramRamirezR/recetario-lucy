@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Formulario de Recetas</title>
+    <!-- Importar Firebase desde el CDN -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <!-- Tu propio script debe ser un módulo -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cargar Receta</h1>
+        <form id="recipe-form">
+            <label for="recipe-name">Nombre de la receta:</label>
+            <input type="text" id="recipe-name" name="recipe-name" required>
+
+            <label for="category">Categoría:</label>
+            <select id="category" name="category" required>
+                <option value="pasteles">Pasteles</option>
+                <option value="roscas">Roscas</option>
+                <option value="panes">Panes</option>
+                <option value="dulces_finos">Dulces Finos</option>
+                <option value="galletas">Galletas</option>
+                <option value="pizzas">Pizzas</option>
+            </select>
+
+            <label for="difficulty">Dificultad:</label>
+            <select id="difficulty" name="difficulty">
+                <option value="facil">Fácil</option>
+                <option value="medio">Medio</option>
+                <option value="dificil">Difícil</option>
+            </select>
+
+            <label for="ingredients">Ingredientes:</label>
+            <textarea id="ingredients" name="ingredients" required></textarea>
+
+            <label for="procedure">Instrucciones:</label>
+            <textarea id="procedure" name="procedure" required></textarea>
+
+            <label for="prep-time">Tiempo de preparación (minutos):</label>
+            <input type="number" id="prep-time" name="prep-time" required>
+
+            <label for="servings">Porciones:</label>
+            <input type="number" id="servings" name="servings" required>
+
+            <label for="comments">Comentarios:</label>
+            <textarea id="comments" name="comments"></textarea>
+
+            <button type="submit" class="guardar-button">Guardar</button>
+            <button type="button" class="volver-button" onclick="window.location.href='index.html'">Inicio</button>
+        </form>
+    </div>
+
+</body>
+</html>

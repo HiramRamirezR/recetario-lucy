@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Ver Recetas</title>
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="ver_recetas.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Recetas Guardadas</h1>
+        <a href="index.html" class="button volver-button">
+            <i class="fas fa-home"></i> Volver al inicio
+        </a>
+
+        <div>
+            <label for="search-name">Buscar por nombre:</label>
+            <input type="text" id="search-name" placeholder="Nombre de la receta">
+
+            <label for="filter-category">Filtrar por categoría:</label>
+            <select id="filter-category">
+                <option value="">Todas</option>
+                <option value="pasteles">Pasteles</option>
+                <option value="roscas">Roscas</option>
+                <option value="panes">Panes</option>
+                <option value="dulces_finos">Dulces Finos</option>
+                <option value="galletas">Galletas</option>
+                <option value="pizzas">Pizzas</option>
+            </select>
+
+            <label for="filter-difficulty">Filtrar por dificultad:</label>
+            <select id="filter-difficulty">
+                <option value="">Todas</option>
+                <option value="facil">Fácil</option>
+                <option value="medio">Medio</option>
+                <option value="dificil">Difícil</option>
+            </select>
+
+            <button id="filter-button">Filtrar</button>
+
+            <div class="container">
+                <h1>Recetas Guardadas</h1>
+                <div id="recipe-list">
+                    <!-- Aquí se mostrarán los nombres de las recetas como enlaces -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
