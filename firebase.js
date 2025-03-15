@@ -1,6 +1,7 @@
 // Importar Firebase desde el CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getDatabase, ref, get, update, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -19,42 +20,74 @@ const database = getDatabase(app);
 // Hacer que la variable database sea accesible globalmente
 window.database = database;
 
-// Agregar lógica para actualizar la receta existente si ya existe, en lugar de crear una nueva receta
-const recipeName = document.getElementById('recipe-name').value;
-const recipeRef = ref(database, 'recipes/' + recipeName);
+const form = document.getElementById('recipe-form');
 
-get(recipeRef).then((snapshot) => {
-    if (snapshot.exists()) {
-        // Actualizar la receta existente
-        update(recipeRef, {
-            recipeName: document.getElementById('recipe-name').value,
-            category: document.getElementById('category').value,
-            difficulty: document.getElementById('difficulty').value,
-            ingredients: document.getElementById('ingredients').value,
-            procedure: document.getElementById('procedure').value,
-            prepTime: document.getElementById('prep-time').value,
-            servings: document.getElementById('servings').value,
-            comments: document.getElementById('comments').value
-        }).then(() => {
-            console.log("Receta actualizada con éxito.");
-        }).catch((error) => {
-            console.error("Error al actualizar la receta:", error);
-        });
-    } else {
-        // Crear una nueva receta si no existe
-        set(recipeRef, {
-            recipeName: document.getElementById('recipe-name').value,
-            category: document.getElementById('category').value,
-            difficulty: document.getElementById('difficulty').value,
-            ingredients: document.getElementById('ingredients').value,
-            procedure: document.getElementById('procedure').value,
-            prepTime: document.getElementById('prep-time').value,
-            servings: document.getElementById('servings').value,
-            comments: document.getElementById('comments').value
-        }).then(() => {
-            console.log("Receta guardada con éxito.");
-        }).catch((error) => {
-            console.error("Error al guardar la receta:", error);
-        });
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const recipeName = document.getElementById('recipe-name').value;
+    const ingredients = document.getElementById('ingredients').value;
+    const prepTime = document.getElementById('prep-time').value;
+    const comments = document.getElementById('comments').value;
+    const difficulty = document.getElementById('difficulty').value;
+    const servings = document.getElementById('servings').value;
+    const category = document.getElementById('category').value;
+    const procedure = document.getElementById('procedure').value;
+    const recipeImage = document.getElementById('recipeImage').files[0];
+
+    const recipeData = {
+        recipeName,
+        ingredients,
+        prepTime,
+        comments,
+        difficulty,
+        servings,
+        category,
+        procedure,
+        imageUrl: null // Agrega un campo imageUrl inicialmente nulo
+    };
+
+    console.log('Intentando guardar la receta:', recipeData);
+
+    const newRecipeRef = ref(database, 'recipes/' + recipeName);
+
+    if (recipeImage) {
+        const storage = getStorage();
+        const imageRef = storageRef(storage, 'recipeImages/' + recipeImage.name); // Ruta en Storage
+        try {
+            const snapshot = await uploadBytes(imageRef, recipeImage);
+            const imageUrl = await getDownloadURL(snapshot.ref);
+            recipeData.imageUrl = imageUrl; // Actualiza imageUrl con la URL de descarga
+        } catch (error) {
+            console.error('Error al cargar la imagen:', error);
+            alert('Error al cargar la imagen.');
+            return; // Detiene el proceso si hay un error en la carga de la imagen
+        }
     }
+
+    get(newRecipeRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            // Actualizar la receta existente
+            update(newRecipeRef, recipeData)
+                .then(() => {
+                    console.log("Receta actualizada con éxito.");
+                    alert('Receta actualizada con éxito!');
+                    form.reset();
+                })
+                .catch((error) => {
+                    console.error("Error al actualizar la receta:", error);
+                });
+        } else {
+            // Crear una nueva receta si no existe
+            set(newRecipeRef, recipeData)
+                .then(() => {
+                    console.log("Receta guardada con éxito.");
+                    alert('Receta guardada con éxito!');
+                    form.reset();
+                })
+                .catch((error) => {
+                    console.error("Error al guardar la receta:", error);
+                });
+        }
+    });
 });

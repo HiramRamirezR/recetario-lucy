@@ -80,6 +80,25 @@ button {
     margin-top: 10px;
 }
 
+.recipe-image {
+    max-width: 100%;
+    width: 200px;
+    margin: 10px 0;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto 20px;
+}
+
+.volver-button {
+    display: block;
+    margin: 0 auto 20px;
+}
+
 /* Responsive styles */
 @media (max-width: 600px) {
     .container {

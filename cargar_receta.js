@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 document.getElementById('prep-time').value = recipe.prepTime;
                 document.getElementById('servings').value = recipe.servings;
                 document.getElementById('comments').value = recipe.comments;
+                document.getElementById('recipeImage').value = recipe.imageUrl;
             } else {
                 console.error("Receta no encontrada.");
             }
@@ -42,7 +43,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             procedure: document.getElementById('procedure').value,
             prepTime: document.getElementById('prep-time').value,
             servings: document.getElementById('servings').value,
-            comments: document.getElementById('comments').value
+            comments: document.getElementById('comments').value,
+            imageUrl: document.getElementById('recipeImage').value
         }).then(() => {
             // Si el nombre ha cambiado, eliminar la receta antigua
             if (originalRecipeName !== newRecipeName) {
