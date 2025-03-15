@@ -42,15 +42,10 @@ document.getElementById('filter-button').addEventListener('click', () => {
             if (matchesName && matchesCategory && matchesDifficulty) {
                 const recipeItem = document.createElement('div');
                 recipeItem.classList.add('recipe-item');
-                recipeItem.innerHTML = `
-                    <h3>${recipe.recipeName}</h3>
-                    <p><strong>Ingredientes:</strong> ${recipe.ingredients}</p>
-                    <p><strong>Tiempo de preparación:</strong> ${recipe.prepTime} minutos</p>
-                    <p><strong>Dificultad:</strong> ${recipe.difficulty}</p>
-                    <p><strong>Categoría:</strong> ${recipe.category}</p>
-                    <p><strong>Comentarios:</strong> ${recipe.comments}</p>
-                    <p><strong>Procedimiento:</strong> ${recipe.procedure}</p>
-                `;
+                const recipeLink = document.createElement('a');
+                recipeLink.href = `receta.html?name=${encodeURIComponent(recipe.recipeName)}`; // Enlace a la vista de la receta
+                recipeLink.textContent = recipe.recipeName; // Nombre de la receta
+                recipeItem.appendChild(recipeLink);
                 recipeList.appendChild(recipeItem);
             }
         });
